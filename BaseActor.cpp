@@ -25,3 +25,55 @@ void ABaseActor::Tick(float DeltaTime)
 
 }
 
+void ABaseActor::Spawn() {
+
+}
+
+void ABaseActor::Death() {
+
+}
+
+void ABaseActor::Active() {
+
+}
+
+void ABaseActor::Pain() {
+
+}
+
+void ABaseActor::Wound() {
+
+}
+
+void ABaseActor::ConditionReceived() {
+
+}
+
+void ABaseActor::ConditionFailed() {
+
+}
+
+void ABaseActor::Idle() {
+
+}
+
+void ABaseActor::Alert() {
+
+}
+
+void ABaseActor::Missile() {
+
+}
+
+void ABaseActor::Heal() {
+
+}
+
+void ABaseActor::Raise() {
+
+}
+
+void ABaseActor::Underwater() {
+
+}
+
