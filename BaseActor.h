@@ -1,10 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+	// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BaseActor.generated.h"
+//#include "GlobalVars.h"
 
 UCLASS()
 class TESTPROJECT_API ABaseActor : public AActor
@@ -14,6 +15,13 @@ class TESTPROJECT_API ABaseActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABaseActor();
+
+	// Stuff that should be global vars ===============
+	struct coords { float x; float y; float z; };
+	enum damagetypes { None = 0, Type1 = 1, Type2 = 2, Type3 = 3, Type4 = 4, } damagetype;
+	enum conditiontypes { None = 0, Type1 = 1, Type2 = 2, Type3 = 3, Type4 = 4, } conditiontype;
+	enum shieldtypes { None = 0, Type1 = 1, Type2 = 2, Type3 = 3, Type4 = 4, } shieldtype;
+	enum factions { None = 0, fac1 = 1, fac2 = 2, fac3 = 3, fac4 = 4, } faction;
 
 	// General properties ===============
 	//later on, we should define stuff like AAPTR_THIS, AAPTR_TARGET, AAPTR_MASTER, [...] which are actor pointers
@@ -26,15 +34,14 @@ public:
 	int* target = 0;
 
 	// Physics and appearance ===============
-	struct scale { float x = 1; float y = 1; float z = 1; };
 	short int renderstyle = 0; //normal...?
 	bool shootable = true;
 	bool solid = true;
 	//radius is meant to increase/decrease the actor's physical size, while maintaning the sma scale for the 3D model
-	//struct worldpoint { float x; float y; float z; };
-	struct my_test_position { float x; float y; float z; };
-	struct my_test_radius { float x = 1; float y = 1; float z = 1; };
-	struct my_test_scale { float x = 1; float y = 1; float z = 1; };
+	
+	coords actor_position;
+	coords actor_radius;
+	coords actor_scale;
 	//worldpoint position;
 	//worldpoint radius;
 	//worldpoint scale;
@@ -74,30 +81,30 @@ public:
 	float staminaregeneration = 0.1;
 	float staminaregenwait = 5.0;
 	float armor = 0;
-	//Are the structs below correct? can they be global for any actor and "map stuff"?
-	//Also, condtype1, condtype2, condtype3 [...] should be the same for both structs. How can they be]
-	//the same automatically?
-	struct damagepiercing { float dmgtype1 = 0; float dmgtype2 = 0; float gmdtype3 = 0; };
-	struct damageresistance { float dmgtype1 = 0; float dmgtype2 = 0; float gmdtype3 = 0; };
-	struct conditionresistance { float condtype1 = 0; float condtype2 = 0; float condtype3 = 0; };
-	struct conditionimmunity { float condtype1 = 0; float condtype2 = 0; float condtype3 = 0; };
+	//damagetype = None;
+	float damagefactor[5] = { 1.0, 1.0, 1.0, 1.0, 1.0, };
+	float damagepiercing[5] = { 1.0, 1.0, 1.0, 1.0, 1.0, };
+	float damageresistance[5] = { 1.0, 1.0, 1.0, 1.0, 1.0, };
+	//conditiontype = None;
+	float conditionresistance[5] = { 1.0, 1.0, 1.0, 1.0, 1.0, };
+	bool conditionimmunity[5] = { false, false, false, false, false, };
 	//Defining shields without condidions will lead to natural shields, preventing the actor
 	//from being buffed with another kind of shield (better or worse than natural shield).
 	//This should be done because there's no exactly way to measure which is the best shield.
 	//Example: Natural shield has 65 "health" and 5 armor. Shield tried to be applied in a buff has
-	//50 "health" and 7 armor. Both of them have different damage resistance values
+	//50 "health" and 7 armor. Both of them may have different damage resistance values.
 	float maxshield = 0;  // = no shield
-	short int shieldtype = 0; //plasma, fire, frost, physical, etc. This is just to link the 3D model.
+	//shieldtype = None;
 	float shield = 0;
 	float shieldregeneration = 0.35;
 	float shieldregenwait = 5.0;
 	float shieldarmor = 0;
 	float shieldmaxdamage = 0;
-	struct shielddamageresistance { float dmgtype1 = 0; float dmgtype2 = 0; float gmdtype3 = 0; };
+	float shieldresistance[5] = { 1.0, 1.0, 1.0, 1.0, 1.0 };
 	float painchance = 0.7;
 	float painthreshold = 5;
-	struct painimmunity { float dmgtype1 = 0; float dmgtype2 = 0; float gmdtype3 = 0; };
-	struct painweakness { float dmgtype1 = 0; float dmgtype2 = 0; float gmdtype3 = 0; };
+	bool painimmunity[5] = { false, false, false, false, false };
+	float painweakness[5] = { 1.0, 1.0, 1.0, 1.0, 1.0, };
 	float movespeed = 10.0;
 	float runspeed = 16.5;
 	float slowspeed = 4.5;
@@ -118,9 +125,9 @@ public:
 	short int submergedtype;
 
 	// Faction properties
-	short int faction = 0;
-	struct friendlyfactions { bool fac1 = false; bool fac2 = false; bool fac3 = false; };
-	struct enemyfactions { bool fac1 = false; bool fac2 = false; bool fac3 = false; };
+	//faction = None;
+	bool friendlyfactions[5] = { false, false, false, false, false, };
+	bool enemyfactions[5] = { false, false, false, false, false, };
 
 protected:
 	// Called when the game starts or when spawned
@@ -154,104 +161,123 @@ protected:
 	void SetActorSoundReact(int* actorpointer, bool react);
 	int* GetActorTarget(int* actorpointer);
 	void SetActorTarget(int* actorpointer, int* newtarget);
-
+	
 	//Physics and appearance
-	scale GetActorScale (int* actorpointer);
-	float GetActorScaleX(int* actorpointer);
-	float GetActorScaleY(int* actorpointer);
-	float GetActorScaleZ(int* actorpointer);
-	void SetActorScale(int* actorpointer, my_test_scale value);
-	int GetActorRenderStyle(int* actorpointer);
-	void SetActorRenderStyle(int* actorpointer, int style);
-	bool IsActorShootable(int* actorpointer);
-	void SetActorShootable(int* actorpointer, bool isshootable);
-	bool IsActorSolid(int* actorpointer);
-	void SetActorSolid(int* actorpointer, bool issolid);
-	my_test_radius GetActorRadius(int* actorpointer);
-	void SetActorRadius(int* actorpointer, my_test_radius value);
-	float GetActorMass(int* actorpointer);
-	void SetActorMass(int* actorpointer, float value);
-	bool IsActorRippable(int* actorpointer);
-	void SetActorRippable(int* actorpointer, bool isrippable);
-	uint8 GetActorRipperResistance(int* actorpointer);
-	void SetActorRipperResistance(int* actorpointer, uint8 resistance);
-	bool IsActorInvulnerable(int* actorpointer);
-	void SetActorInvulnerable(int* actorpointer, bool isinvulnerable);
+	/*coords GetActorScale() {
+		FTransform test = GetTransform();
+		return test.GetScale3D;
+		//return test.GetLocation;
+	}*/
+	coords GetActorScale();
+	float GetActorScaleX(); //ABaseActor* actorpointer parameter was removed from all methods.
+	float GetActorScaleY();
+	float GetActorScaleZ();
+	void SetActorScale(coords value);
+	int GetActorRenderStyle();
+	void SetActorRenderStyle(int style);
+	bool IsActorShootable(); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	void SetActorShootable(bool isshootable);  //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	bool IsActorSolid(); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	void SetActorSolid(bool issolid); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	coords GetActorRadius();
+	void SetActorRadius(coords value);
+	float GetActorMass();
+	void SetActorMass(float value);
+	bool IsActorRippable(); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	void SetActorRippable(bool isrippable); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	uint8 GetActorRipperResistance();
+	void SetActorRipperResistance(uint8 resistance);
+	bool IsActorInvulnerable(); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	void SetActorInvulnerable(bool isinvulnerable); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
 
 	// Special stats
-	bool CanActorRaise(int* actorpointer);
-	void SetActorCanRaise(int* actorpointer, bool can);
-	float GetActorRaiseMana(int* actorpointer);
-	void SetActorRaiseMana(int* actorpointer, float value);
-	uint8 GetActorSummonedCompanions(int* actorpointer);
-	uint8 GetActorMaxSummons(int* actorpointer);
-	void SetActorMaxSummons(int* actorpointer, uint8 amount);
+	bool CanActorRaise(); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	void SetActorCanRaise(bool can); //ACTOR FLAG --- BRING IT TO THE OVERALL FLAGS METHOD
+	float GetActorRaiseMana();
+	void SetActorRaiseMana(float value);
+	uint8 GetActorSummonedCompanions();
+	uint8 GetActorMaxSummons();
+	void SetActorMaxSummons(uint8 amount);
 
 	// Biological stats
-	float GetActorMaxHealth(int* actorpointer);
-	float GetActorHealth(int* actorpointer);
-	float GetActorHealthRegen(int* actorpointer);
-	float GetActorHealthRegenWait(int* actorpointer);
-	void SetActorMaxHealth(int* actorpointer, float value);
-	void SetActorHealth(int* actorpointer, float value);
-	void SetActorHealthRegen(int* actorpointer, float regen);
-	void SetActorHealthRegenWait(int* actorpointer, float time);
-	float GetActorMaxMana(int* actorpointer);
-	float GetActorMana(int* actorpointer);
-	float GetActorManaRegen(int* actorpointer);
-	float GetActorManaRegenWait(int* actorpointer);
-	void SetActorMaxMana(int* actorpointer, float value);
-	void SetActorMana(int* actorpointer, float value);
-	void SetActorManaRegen(int* actorpointer, float regen);
-	void SetActorManaRegenWait(int* actorpointer, float time);
-	float GetActorMaxStamina(int* actorpointer);
-	float GetActorStamina(int* actorpointer);
-	float GetActorStaminaRegen(int* actorpointer);
-	float GetActorStaminaRegenWait(int* actorpointer);
-	void SetActorMaxStamina(int* actorpointer, float value);
-	void SetActorStamina(int* actorpointer, float value);
-	void SetActorStaminaRegen(int* actorpointer, float regen);
-	void SetActorStaminaRegenWait(int* actorpointer, float time);
-	float GetActorMaxShields(int* actorpointer);
-	float GetActorShields(int* actorpointer);
-	short int GetActorShieldType(int* actorpointer);
-	float GetActorShieldRegeneration(int* actorpointer);
-	float GetActorShieldRegenWait(int* actorpointer);
-	float GetActorShieldArmor(int* actorpointer);
-	float GetActorShieldMaxDamage(int* actorpointer);
-	damageresistance GetActorShieldDamageResistance(int* actorpointer);
-	void SetActorMaxShields(int* actorpointer, float value);
-	void SetActorShields(int* actorpointer, float value);
-	void SetActorShieldType(int* actorpointer, short int type);
-	void SetActorShieldRegeneration(int* actorpointer, float regen);
-	void SetActorShieldRegenWait(int* actorpointer, float time);
-	void SetActorShieldArmor(int* actorpointer, float amount);
-	void SetActorShieldMaxDamage(int* actorpointer, float amount);
-	void SetActorShieldDamageResistance(int* actorpointer, damageresistance dmg_resistance);
-	damageresistance GetActorDamageResistance(int* actorpointer);
-	void SetActorDamageResistance(int* actorpointer, damageresistance dmg_resistance);
-	conditionresistance GetActorConditionResistance(int* actorpointer);
-	void SetActorConditionResistance(int* actorpointer, conditionresistance cond_resistance);
-	conditionimmunity GetActorConditionImmunity(int* actorpointer);
-	void SetActorConditionImmunity(int* actorpointer, conditionimmunity cond_resistance);
-	float GetActorPainChance(int* actorpointer);
-	void SetActorPainChange(int* actorpointer, float chance);
-	float GetActorPainThreshold(int* actorpointer);
-	void SetActorPainThreshold(int* actorpointer, float threshold);
-	painimmunity GetActorPainImmunity(int* actorpointer);
-	void SetActorPainImmunity(int* actorpointer, painimmunity immunity);
-	painweakness GetActorPainWeakness(int* actorpointer);
-	void SetActorPainWeakness(int* actorpointer, painweakness weakness);
-	float GetActorMoveSpeed(int* actorpointer);
-	void SetActorMoveSpeed(int* actorpointer, float mspeed);
-	float GetActorRunSpeed(int* actorpointer);
-	void SetActorRunSpeed(int* actorpointer, float rspeed);
+	float GetActorMaxHealth();
+	float GetActorHealth();
+	float GetActorHealthRegen();
+	float GetActorHealthRegenWait();
+	void SetActorMaxHealth(float value);
+	void SetActorHealth(float value);
+	void SetActorHealthRegen(float regen);
+	void SetActorHealthRegenWait(float time);
+	float GetActorMaxMana();
+	float GetActorMana();
+	float GetActorManaRegen();
+	float GetActorManaRegenWait();
+	void SetActorMaxMana(float value);
+	void SetActorMana(float value);
+	void SetActorManaRegen(float regen);
+	void SetActorManaRegenWait(float time);
+	float GetActorMaxStamina();
+	float GetActorStamina();
+	float GetActorStaminaRegen();
+	float GetActorStaminaRegenWait();
+	void SetActorMaxStamina(float value);
+	void SetActorStamina(float value);
+	void SetActorStaminaRegen(float regen);
+	void SetActorStaminaRegenWait(float time);
+	float GetActorMaxShields();
+	float GetActorShields();
+	short int GetActorShieldType();
+	float GetActorShieldRegeneration();
+	float GetActorShieldRegenWait();
+	float GetActorShieldArmor();
+	float GetActorShieldMaxDamage();
+	//damagefactor GetActorShieldDamageResistance(int* actorpointer, damagetype type); // ==================== #####
+	float GetActorShieldDamageResistance(int type);
+	void SetActorMaxShields(float value);
+	void SetActorShields(float value);
+	void SetActorShieldType(int type);
+	void SetActorShieldRegeneration(float regen);
+	void SetActorShieldRegenWait(float time);
+	void SetActorShieldArmor(float amount);
+	void SetActorShieldMaxDamage(float amount);
+	//void SetActorShieldDamageResistance(int* actorpointer, damagefactor dmgresistance); // ==================== #####
+	void SetActorShieldDamageResistance(int dmgtype, float dmgresistance);
+	//damagefactor GetActorDamageResistance(int* actorpointer); // ==================== #####
+	float GetActorDamageResistance(int dmgtype);
+	//void SetActorDamageResistance(int* actorpointer, damagefactor dmgresistance); // ==================== #####
+	void SetActorDamageResistance(int dmgtype, float dmgresistance);
+	//conditionresistance GetActorConditionResistance(int* actorpointer); // ==================== #####
+	float GetActorConditionResistance(int condtype);
+	//void SetActorConditionResistance(int* actorpointer, conditionresistance cond_resistance); // ==================== #####
+	void SetActorConditionResistance(int condtype, float condresistance);
+	//conditionimmunity GetActorConditionImmunity(int* actorpointer); // ==================== #####
+	float GetActorConditionImmunity(int condtype);
+	//void SetActorConditionImmunity(int* actorpointer, conditionimmunity cond_resistance); // ==================== #####
+	void SetActorConditionImmunity(int condtype, bool immune);
+	float GetActorPainChance();
+	void SetActorPainChange(float chance);
+	float GetActorPainThreshold();
+	void SetActorPainThreshold(float threshold);
+	//painimmunity GetActorPainImmunity(int* actorpointer); // ==================== #####
+	float GetActorPainImmunity(int dmgtype);
+	//void SetActorPainImmunity(int* actorpointer, painimmunity immunity); // ==================== #####
+	void SetActorPainImmunity(int dmgtype, bool immune);
+	//painweakness GetActorPainWeakness(int* actorpointer); // ==================== #####
+	float GetActorPainWeakness(int dmgtype);
+	//void SetActorPainWeakness(int* actorpointer, painweakness weakness); // ==================== #####
+	void SetActorPainWeakness(int dmgtype, float weakness);
+	float GetActorMoveSpeed();
+	void SetActorMoveSpeed(float mspeed);
+	float GetActorRunSpeed();
+	void SetActorRunSpeed(float rspeed);
 	float GetActorSlowSpeed(int* actorpointer);
-	void SetActorSlowSpeed(int* actorpointer, float sspeed);
-	float GetActorJumpForce(int* actorpointer);
-	void SetActorJumpForce(int* actorpointer, float force);
+	void SetActorSlowSpeed(float sspeed);
+	float GetActorJumpForce();
+	void SetActorJumpForce(float force);
 
 	// Player stats
+	// I didn't remove the pointer from those methods because they MAY (or may not) be necessary
+	// to access the player-class component. Maybe I'll move those methods to player-class only.
 	float GetPlayerMaxHunger(int* playerpointer);
 	float GetPlayerHunger(int* playerpointer);
 	float GetPlayerMaxDehydration(int* playerpointer);
@@ -266,16 +292,16 @@ protected:
 	void SetPlayerExhaustion(int* playerpointer, float value);
 
 	// Behavior stats
-	float GetActorAttackChance(int* actorpointer);
-	float GetActorHealChance(int* actorpointer);
-	float GetActorAttackInterval(int* actorpointer);
-	float GetActorHealInterval(int* actorpointer);
-	float GetActorWoundHealth(int* actorpointer);
-	void SetActorAttackChance(int* actorpointer, float chance);
-	void SetActorHealChance(int* actorpointer, float chance);
-	void SetActorAttackInterval(int* actorpointer, float interval);
-	void SetActorHealInterval(int* actorpointer, float interval);
-	void SetActorWoundHealth(int* actorpointer, float whealth);
+	float GetActorAttackChance();
+	float GetActorHealChance();
+	float GetActorAttackInterval();
+	float GetActorHealInterval();
+	float GetActorWoundHealth();
+	void SetActorAttackChance(float chance);
+	void SetActorHealChance(float chance);
+	void SetActorAttackInterval(float interval);
+	void SetActorHealInterval(float interval);
+	void SetActorWoundHealth(float whealth);
 
 	// Climate effect stats
 	//[get/set]waterlevel
@@ -284,12 +310,16 @@ protected:
 	//[get/set]submergedtype
 
 	// Faction stats
-	uint8 GetActorFaction(int* actorpointer);
-	friendlyfactions GetActorFriendlyFactions(int* actorpointer);
-	enemyfactions GetActorEnemyFactions(int* actorpointer);
-	void SetActorFaction(int* actorpointer, uint8 faction);
-	void SetActorFriendlyFactions(int* actorpointer, friendlyfactions factions);
-	void SetActorEnemyFactions(int* actorpointer, enemyfactions factions);
+	int GetActorFaction();
+	//friendlyfactions GetActorFriendlyFactions(int* actorpointer); // ==================== #####
+	bool GetActorFriendlyFaction(int faction);
+	//enemyfactions GetActorEnemyFactions(int* actorpointer); // ==================== #####
+	bool GetActorEnemyFaction(int faction);
+	void SetActorFaction(int faction);
+	//void SetActorFriendlyFactions(int* actorpointer, friendlyfactions factions); // ==================== #####
+	void SetActorFriendlyFactions(int faction, bool isfriendly);
+	//void SetActorEnemyFactions(int* actorpointer, enemyfactions factions); // ==================== #####
+	void SetActorEnemyFactions(int faction, bool isenemy);
 
 	// Sight methods
 	bool CheckLOS(int* actorpointer, int* actorpointer2);
@@ -297,25 +327,26 @@ protected:
 	bool CheckRange(int* actorpointer, int* actorpointer2, float range);
 
 	// Sound methods
-	void NoiseAlert(int* noisyactor, float range);
+	void NoiseAlert(float range);
 
 	// Damage and Healing methods
-	void RayAttack(float damage, int damage_type, float armor_factor, my_test_position Offset_position, float angle, float pitch, ABaseActor Line, ABaseActor Impact, float spacing, int piercing_llimit);
-	bool MeleeAttack(float damage, int damage_type, float range, float hit_angle, float knockback_strength, ABaseActor puff_type, float life_drain, bool destroy_projectiles, damagepiercing piercing);
-	void BulletAttack(float spread_angle, int bullets_amoount, float bullet_damage, int damage_type, float armor_factor, ABaseActor puff_type, float max_range, damagepiercing piercing);
-	void ProjectileAttack(ABaseActor missile, float angle, float pitch, my_test_position offset_position, int* target);
+	void RayAttack(float damage, int damage_type, float armor_factor, coords Offset_position, float angle, float pitch, ABaseActor Line, ABaseActor Impact, float spacing, int piercing_llimit);
+	bool MeleeAttack(float damage, int damage_type, float range, float hit_angle, float knockback_strength, ABaseActor puff_type, float life_drain, bool destroy_projectiles, float piercing);
+	void BulletAttack(float spread_angle, int bullets_amoount, float bullet_damage, int damage_type, float armor_factor, ABaseActor puff_type, float max_range, float piercing);
+	void ProjectileAttack(ABaseActor missile, float angle, float pitch, coords offset_position, int* target);
 	void Blast(float strength, float radius, float full_strength_radius);
-	void DamageActorMaster(int* actorpointer, float damage, int damage_type, damagepiercing piercing);
-	void DamageActorSiblings(int* actorpointer, float damage, int damage_type, damagepiercing piercing);
-	void DamageActorChildren(int* actorpointer, float damage, int damage_type, damagepiercing piercing);
-	void Explode(float damage, float damage_type, float radius, float armor_factor, float full_damage_radius, bool friendly_fire, damagepiercing piercing);
-	void Defend(float damage_factor, float bonus_armor, damageresistance bonus_resistance, float bonus_knockback_resistance, float angle);
-	void HealActorMaster(int* actorpointer, float heal_amount);   //Even if healing is a "negative damage", it's better to have
-	void HealActorSiblings(int* actorpointer, float heal_amount); //methods just for healing because it "removes" any kind of
-	void HealActorChildren(int* actorpointer, float heal_amount); //if-else structures from damage methods. The formula for
+	void DamageActorMaster(float damage, int damage_type, float piercing);
+	void DamageActorSiblings(float damage, int damage_type, float piercing);
+	void DamageActorChildren(float damage, int damage_type, float piercing);
+	void Explode(float damage, float damage_type, float radius, float armor_factor, float full_damage_radius, bool friendly_fire, float piercing);
+	void Defend(float damage_factor, float bonus_armor, float bonus_resistance, float bonus_knockback_resistance, float angle);
+	void HealActorMaster(float heal_amount);   //Even if healing is a "negative damage", it's better to have
+	void HealActorSiblings(float heal_amount); //methods just for healing because it "removes" any kind of
+	void HealActorChildren(float heal_amount); //if-else structures from damage methods. The formula for
 	void Area_heal(float heal_amount, float radius, float full_heal_radius); //ignores armor and resistance, except heal% conditions
-	void DamageActor(int* actorpointer, float damage, float armor_factor, int damage_type);
-	void HealActor(int* actorpointer, float heal_amount);
+	void DamageActor(float damage, float armor_factor, int damage_type, float piercing);
+	void HealActor(float heal_amount);
+	void ApplyKnockbackToActor(float strength);
 
 
 public:	
@@ -323,6 +354,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	//Physics and appearance
-	scale GetActorPosition(); //this one is here (public) because it doesn't have a pointer parameter.
+	coords GetActorPosition(); //this one is here (public) because it doesn't have a pointer parameter.
 	//void SetActorPosition(scale position);
 };

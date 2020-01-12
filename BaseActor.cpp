@@ -15,7 +15,7 @@ ABaseActor::ABaseActor()
 void ABaseActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Spawn();
 }
 
 // Called every frame
@@ -26,7 +26,7 @@ void ABaseActor::Tick(float DeltaTime)
 }
 
 void ABaseActor::Spawn() {
-
+	
 }
 
 void ABaseActor::Death() {
@@ -76,4 +76,3 @@ void ABaseActor::Raise() {
 void ABaseActor::Underwater() {
 
 }
-
