@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/TriggerBox.h"
+#include "ElevatorTest.h"
 #include "TestTriggerBox.generated.h"
 
 /**
@@ -18,6 +19,10 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	UPROPERTY(Category = "Actor pointers", EditAnywhere, BlueprintReadWrite)
+		class AActor* targetactor;
+	UPROPERTY(Category = "Actor pointers", EditAnywhere, BlueprintReadWrite)
+		class AElevatorTest* targetelevator;
 	ATestTriggerBox();
 	// declare overlap begin function
 	UFUNCTION()
@@ -25,4 +30,6 @@ public:
 	// declare overlap end function
 	UFUNCTION()
 		void OnOverlapEnd(class AActor* OverlappedActor, class AActor* OtherActor); //(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	UFUNCTION()
+		void OnHit(class AActor* OverlappedActor, class AActor* OtherActor);
 };
