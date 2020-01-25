@@ -53,11 +53,14 @@ void ATestProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	// set up gameplay key bindings
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ATestProjectCharacter::MoveRight);
-	PlayerInputComponent->BindAxis("MoveUp", this, &ATestProjectCharacter::MoveUp);
+	//PlayerInputComponent->BindAxis("MoveRight", this, &ATestProjectCharacter::MoveRight);
+	//PlayerInputComponent->BindAxis("MoveUp", this, &ATestProjectCharacter::MoveUp);
+	PlayerInputComponent->BindAction("ChangeUp", IE_Pressed, this, &ATestProjectCharacter::ChangeUp);
+	PlayerInputComponent->BindAction("ChangeDown", IE_Pressed, this, &ATestProjectCharacter::ChangeDown);
+	PlayerInputComponent->BindAxis("Walk_R/L", this, &ATestProjectCharacter::Walk);
 }
 
-void ATestProjectCharacter::MoveRight(float Value)
+/*void ATestProjectCharacter::MoveRight(float Value)
 {
 	// add movement in that direction
 	AddMovementInput(FVector(0.f,-1.f,0.f), Value);
@@ -65,12 +68,47 @@ void ATestProjectCharacter::MoveRight(float Value)
 
 void ATestProjectCharacter::MoveUp(float Value) {
 	AddMovementInput(FVector(-1.f, 0.f, 0.f), Value);
+}*/
+
+void ATestProjectCharacter::Walk(float value) {
+	AddMovementInput(FVector(direction.Vector()), value);
+}
+
+void ATestProjectCharacter::ChangeUp() {
+	if (this->canmoveup) {
+		UE_LOG(LogTemp, Log, TEXT("Changing Up..."));
+		SetActorRotation(nextfacingup);
+		direction = nextdirectionup;
+		CameraBoom->TargetArmLength = nextcameradistance;
+		CameraBoom->SetRelativeRotation(FRotator(nextcamerapitch, nextdirectionup.Yaw - 90, 0.f));
+		CameraBoom->SetRelativeLocation(nextcameraoffset);
+		SetActorLocation(FVector(center.X, center.Y, GetActorLocation().Z));
+		//AddMovementInput(FVector(direction.Vector()), 1.0);
+		this->canmoveup = false;
+	}
+}
+
+void ATestProjectCharacter::ChangeDown() {
+	if (this->canmovedown) {
+		UE_LOG(LogTemp, Log, TEXT("Changing Down..."));
+		SetActorRotation(nextfacingdown);
+		direction = nextdirectiondown;
+		CameraBoom->TargetArmLength = nextcameradistance;
+		CameraBoom->SetRelativeRotation(FRotator(nextcamerapitch, nextdirectiondown.Yaw - 90, 0.f));
+		CameraBoom->SetRelativeLocation(nextcameraoffset);
+		SetActorLocation(FVector(center.X, center.Y, GetActorLocation().Z));
+		//AddMovementInput(FVector(direction.Vector()), 1.0);
+		this->canmovedown = false;
+	}
 }
 
 // Called when the game starts or when spawned
 void ATestProjectCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	direction = GetActorRotation();
+	canmoveup = false;
+	canmovedown = false;
 	Spawn();
 }
 

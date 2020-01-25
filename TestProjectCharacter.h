@@ -19,6 +19,20 @@ class ATestProjectCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
+public:
+	FRotator direction;
+	bool canmoveup;
+	bool canmovedown;
+	FRotator nextdirectionup;
+	FRotator nextdirectiondown;
+	FRotator nextfacingup;
+	FRotator nextfacingdown;
+	float nextcameradistance;
+	float nextcamerapitch;
+	FVector nextcameraoffset;
+	bool iscircularmovement;
+	FVector center;
+
 	// Stuff that should be global vars ===============
 	//struct coords { float x; float y; float z; }; // UNECESSARY PROPERTY --- UNREAL ALREADY HAS THIS METHOD
 	enum damagetypes { Dmg_None = 0, Dmg_Type1 = 1, Dmg_Type2 = 2, Dmg_Type3 = 3, Dmg_Type4 = 4, };
@@ -183,9 +197,13 @@ class ATestProjectCharacter : public ACharacter
 protected:
 
 	/** Called for side to side input */
-	void MoveRight(float Value);
-	void MoveUp(float Value);
-
+	//void MoveRight(float Value);
+	//void MoveUp(float Value);
+	void Walk(float value);
+public:
+	void ChangeUp();
+	void ChangeDown();
+protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
