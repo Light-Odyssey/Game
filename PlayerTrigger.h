@@ -20,14 +20,11 @@ public:
 		class ATestProjectCharacter* playerpointer;
 	UPROPERTY(Category = "Player pointer", EditAnywhere)
 		class AActor* playeractorpointer;
+
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
 		bool moveup_0;
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
 		bool movedown_0;
-	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
-		FRotator directionup_0;
-	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
-		FRotator directondown_0;
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
 		FRotator angleup_0;
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
@@ -37,18 +34,34 @@ public:
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
 		FRotator facingdown_0;
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
-		float cameradistance_0;
+		float cameradistance_0 = 500.0;
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
 		float camerapitch_0;
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
 		FVector cameraoffset_0;
 	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
 		bool forcedmove_0;
-	//UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
-		//bool upiscircularmove;
-	//UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
-		//bool downiscircularmove;
-	//Angles and radius (in the plural!) should be added here
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		bool upisparabolicmove_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		bool downisparabolicmove_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		FVector upparabolicdelta_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		FVector downparabolicdelta_0;
+	/*UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		FVector2D upcirclecenter_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		FVector2D downcirclecenter_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		float upcircleradiusX_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		float downcircleradiusX_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		float upcircleradiusY_0;
+	UPROPERTY(Category = "Trigger settings: FRONT SIDE", EditAnywhere)
+		float downcircleradiusY_0;*/
+
 	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
 		bool moveup_90;
 	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
@@ -62,18 +75,34 @@ public:
 	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
 		FRotator facingdown_90;
 	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
-		float cameradistance_90;
+		float cameradistance_90 = 500.0;
 	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
 		float camerapitch_90;
 	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
 		FVector cameraoffset_90;
 	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
 		bool forcedmove_90;
-	//UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
-		//bool upiscircularmove;
-	//UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
-		//bool downiscircularmove;
-	//Angles and radius (in the plural!) should be added here
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		bool upisparabolicmove_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		bool downisparabolicmove_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		FVector upparabolicdelta_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		FVector downparabolicdelta_90;
+	/*UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		FVector2D upcirclecenter_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		FVector2D downcirclecenter_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		float upcircleradiusX_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		float downcircleradiusX_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		float upcircleradiusY_90;
+	UPROPERTY(Category = "Trigger settings: LEFT SIDE", EditAnywhere)
+		float downcircleradiusY_90;*/
+
 	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
 		bool moveup_180;
 	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
@@ -87,18 +116,34 @@ public:
 	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
 		FRotator facingdown_180;
 	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
-		float cameradistance_180;
+		float cameradistance_180 = 500.0;
 	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
 		float camerapitch_180;
 	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
 		FVector cameraoffset_180;
 	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
 		bool forcedmove_180;
-	//UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
-		//bool upiscircularmove;
-	//UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
-		//bool downiscircularmove;
-	//Angles and radius (in the plural!) should be added here
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		bool upisparabolicmove_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		bool downisparabolicmove_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		FVector upparabolicdelta_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		FVector downparabolicdelta_180;
+	/*UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		FVector2D upcirclecenter_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		FVector2D downcirclecenter_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		float upcircleradiusX_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		float downcircleradiusX_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		float upcircleradiusY_180;
+	UPROPERTY(Category = "Trigger settings: BACK SIDE", EditAnywhere)
+		float downcircleradiusY_180;*/
+
 	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
 		bool moveup_270;
 	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
@@ -112,25 +157,40 @@ public:
 	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
 		FRotator facingdown_270;
 	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
-		float cameradistance_270;
+		float cameradistance_270 = 500.0;
 	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
 		float camerapitch_270;
 	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
 		FVector cameraoffset_270;
 	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
 		bool forcedmove_270;
-	//UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
-		//bool upiscircularmove;
-	//UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
-		//bool downiscircularmove;
-	//Angles and radius (in the plural!) should be added here
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		bool upisparabolicmove_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		bool downisparabolicmove_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		FVector upparabolicdelta_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		FVector downparabolicdelta_270;
+	/*UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		FVector2D upcirclecenter_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		FVector2D downcirclecenter_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		float upcircleradiusX_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		float downcircleradiusX_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		float upcircleradiusY_270;
+	UPROPERTY(Category = "Trigger settings: RIGHT SIDE", EditAnywhere)
+		float downcircleradiusY_270;*/
+
 	APlayerTrigger();
-	// declare overlap begin function
+
 	UFUNCTION()
-		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor); //(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	// declare overlap end function
+		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
 	UFUNCTION()
-		void OnOverlapEnd(class AActor* OverlappedActor, class AActor* OtherActor); //(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+		void OnOverlapEnd(class AActor* OverlappedActor, class AActor* OtherActor);
 
 protected:
 	void OverlappedFront();

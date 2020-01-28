@@ -30,8 +30,19 @@ public:
 	float nextcameradistance;
 	float nextcamerapitch;
 	FVector nextcameraoffset;
-	bool iscircularmovement;
 	FVector center;
+	bool isparabolicmovement;
+	bool upisparabolicmovement;
+	bool downisparabolicmovement;
+	FVector nextdeltaup;
+	FVector nextdeltadown;
+	FVector delta;
+	/*FVector2D upcirclecenter;
+	FVector2D downcirclecenter;
+	float upradiusx;
+	float downradiusx;
+	float upradiusy;
+	float downradiusy;*/
 
 	// Stuff that should be global vars ===============
 	//struct coords { float x; float y; float z; }; // UNECESSARY PROPERTY --- UNREAL ALREADY HAS THIS METHOD

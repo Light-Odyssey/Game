@@ -35,15 +35,14 @@ void APlayerTrigger::OnOverlapBegin(class AActor* OverlappedActor, class AActor*
 			UE_LOG(LogTemp, Log, TEXT("Entering from right side"));
 			OverlappedRight();
 		}
-		else if (handler.Yaw > 135 && handler.Yaw <= 225) {
-			UE_LOG(LogTemp, Log, TEXT("Entering from back side"));
-			OverlappedBack();
-		}
-		else { //if (handler.Yaw > 225 && handler.Yaw <= 360) {
+		else if (handler.Yaw <= -45 && handler.Yaw > -135) {
 			UE_LOG(LogTemp, Log, TEXT("Entering from left side"));
 			OverlappedLeft();
 		}
-		
+		else { //if (handler.Yaw > 135 && handler.Yaw <= 180) {
+			UE_LOG(LogTemp, Log, TEXT("Entering from back side"));
+			OverlappedBack();
+		}
 	}
 }
 
@@ -56,6 +55,9 @@ void APlayerTrigger::OverlappedBack()
 		playerpointer->nextcameradistance = cameradistance_180;
 		playerpointer->nextcamerapitch = camerapitch_180;
 		playerpointer->nextcameraoffset = cameraoffset_180;
+		playerpointer->upisparabolicmovement = upisparabolicmove_180;
+		if (upisparabolicmove_180)
+			playerpointer->nextdeltaup = upparabolicdelta_180;
 		playerpointer->ChangeUp();
 	}
 	else {
@@ -68,6 +70,14 @@ void APlayerTrigger::OverlappedBack()
 		playerpointer->nextcameradistance = cameradistance_180;
 		playerpointer->nextcamerapitch = camerapitch_180;
 		playerpointer->nextcameraoffset = cameraoffset_180;
+		playerpointer->upisparabolicmovement = upisparabolicmove_180;
+		playerpointer->downisparabolicmovement = downisparabolicmove_180;
+		if (moveup_180 && upisparabolicmove_180) {
+			playerpointer->nextdeltaup = upparabolicdelta_180;
+		}
+		if (movedown_180 && downisparabolicmove_180) {
+			playerpointer->nextdeltadown = downparabolicdelta_180;
+		}
 	}
 }
 
@@ -80,6 +90,10 @@ void APlayerTrigger::OverlappedRight()
 		playerpointer->nextcameradistance = cameradistance_270;
 		playerpointer->nextcamerapitch = camerapitch_270;
 		playerpointer->nextcameraoffset = cameraoffset_270;
+		playerpointer->nextcameraoffset = cameraoffset_270;
+		playerpointer->upisparabolicmovement = upisparabolicmove_270;
+		if (upisparabolicmove_270)
+			playerpointer->nextdeltaup = upparabolicdelta_270;
 		playerpointer->ChangeUp();
 	}
 	else {
@@ -92,6 +106,14 @@ void APlayerTrigger::OverlappedRight()
 		playerpointer->nextcameradistance = cameradistance_270;
 		playerpointer->nextcamerapitch = camerapitch_270;
 		playerpointer->nextcameraoffset = cameraoffset_270;
+		playerpointer->upisparabolicmovement = upisparabolicmove_270;
+		playerpointer->downisparabolicmovement = downisparabolicmove_270;
+		if (moveup_270 && upisparabolicmove_270) {
+			playerpointer->nextdeltaup = upparabolicdelta_270;
+		}
+		if (movedown_270 && downisparabolicmove_270) {
+			playerpointer->nextdeltadown = downparabolicdelta_270;
+		}
 	}
 }
 
@@ -104,6 +126,10 @@ void APlayerTrigger::OverlappedFront()
 		playerpointer->nextcameradistance = cameradistance_0;
 		playerpointer->nextcamerapitch = camerapitch_0;
 		playerpointer->nextcameraoffset = cameraoffset_0;
+		playerpointer->nextcameraoffset = cameraoffset_0;
+		playerpointer->upisparabolicmovement = upisparabolicmove_0;
+		if (upisparabolicmove_0)
+			playerpointer->nextdeltaup = upparabolicdelta_0;
 		playerpointer->ChangeUp();
 	}
 	else {
@@ -116,6 +142,14 @@ void APlayerTrigger::OverlappedFront()
 		playerpointer->nextcameradistance = cameradistance_0;
 		playerpointer->nextcamerapitch = camerapitch_0;
 		playerpointer->nextcameraoffset = cameraoffset_0;
+		playerpointer->upisparabolicmovement = upisparabolicmove_0;
+		playerpointer->downisparabolicmovement = downisparabolicmove_0;
+		if (moveup_0 && upisparabolicmove_0) {
+			playerpointer->nextdeltaup = upparabolicdelta_0;
+		}
+		if (movedown_0 && downisparabolicmove_0) {
+			playerpointer->nextdeltadown = downparabolicdelta_0;
+		}
 	}
 }
 
@@ -128,6 +162,10 @@ void APlayerTrigger::OverlappedLeft()
 		playerpointer->nextcameradistance = cameradistance_90;
 		playerpointer->nextcamerapitch = camerapitch_90;
 		playerpointer->nextcameraoffset = cameraoffset_90;
+		playerpointer->nextcameraoffset = cameraoffset_90;
+		playerpointer->upisparabolicmovement = upisparabolicmove_90;
+		if (upisparabolicmove_90)
+			playerpointer->nextdeltaup = upparabolicdelta_90;
 		playerpointer->ChangeUp();
 	}
 	else {
@@ -140,6 +178,14 @@ void APlayerTrigger::OverlappedLeft()
 		playerpointer->nextcameradistance = cameradistance_90;
 		playerpointer->nextcamerapitch = camerapitch_90;
 		playerpointer->nextcameraoffset = cameraoffset_90;
+		playerpointer->upisparabolicmovement = upisparabolicmove_90;
+		playerpointer->downisparabolicmovement = downisparabolicmove_90;
+		if (moveup_90 && upisparabolicmove_90) {
+			playerpointer->nextdeltaup = upparabolicdelta_90;
+		}
+		if (movedown_90 && downisparabolicmove_90) {
+			playerpointer->nextdeltadown = downparabolicdelta_90;
+		}
 	}
 }
 

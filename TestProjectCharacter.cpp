@@ -71,6 +71,16 @@ void ATestProjectCharacter::MoveUp(float Value) {
 }*/
 
 void ATestProjectCharacter::Walk(float value) {
+	if (isparabolicmovement) {
+		UE_LOG(LogTemp, Log, TEXT("Old direction vector: %f, %f"), direction.Vector().X, direction.Vector().Y);
+		FVector handler = direction.Vector();
+		handler += delta * value/100;
+		direction = handler.Rotation();
+		GetCharacterMovement()->Velocity.Rotation() = handler.Rotation();
+		AddMovementInput(FVector(direction.Vector()), value);
+		UE_LOG(LogTemp, Log, TEXT("New direction vector: %f, %f"), direction.Vector().X, direction.Vector().Y);
+		CameraBoom->SetRelativeRotation(FRotator(nextcamerapitch, direction.Yaw - 90, 0.f));
+	}
 	AddMovementInput(FVector(direction.Vector()), value);
 }
 
@@ -85,6 +95,14 @@ void ATestProjectCharacter::ChangeUp() {
 		SetActorLocation(FVector(center.X, center.Y, GetActorLocation().Z));
 		//AddMovementInput(FVector(direction.Vector()), 1.0);
 		this->canmoveup = false;
+		//float currentspeed = GetCharacterMovement()->Velocity.Y;
+		GetCharacterMovement()->Velocity = FVector(0., 0., GetCharacterMovement()->Velocity.Z);
+		isparabolicmovement = upisparabolicmovement;
+		if (isparabolicmovement) {
+			delta = nextdeltaup;
+			UE_LOG(LogTemp, Log, TEXT("Entering in parabolic move..."));
+			UE_LOG(LogTemp, Log, TEXT("Delta vector: %f, %f"), delta.X, delta.Y);
+		}
 	}
 }
 
@@ -99,6 +117,16 @@ void ATestProjectCharacter::ChangeDown() {
 		SetActorLocation(FVector(center.X, center.Y, GetActorLocation().Z));
 		//AddMovementInput(FVector(direction.Vector()), 1.0);
 		this->canmovedown = false;
+		//FVector currentspeed = GetCharacterMovement()->Velocity;
+		//currentspeed.Rotation() = nextfacingdown;
+		//GetCharacterMovement()->Velocity = currentspeed;
+		GetCharacterMovement()->Velocity = FVector(0., 0., GetCharacterMovement()->Velocity.Z);
+		isparabolicmovement = downisparabolicmovement;
+		if (isparabolicmovement) {
+			delta = nextdeltadown;
+			UE_LOG(LogTemp, Log, TEXT("Entering in parabolic move..."));
+			UE_LOG(LogTemp, Log, TEXT("Delta vector: %f, %f"), delta.X, delta.Y);
+		}
 	}
 }
 
